@@ -1,4 +1,30 @@
 
+# Load the cleaned dataset
+ireland <- read.csv("data/ireland_electricity_clean.csv")
+
+# Convert timestamps into dates
+ireland$datetime <- as.POSIXct(
+  ireland$utc_timestamp,
+  format = "%Y-%m-%dT%H:%M:%SZ",
+  tz = "UTC"
+)
+
+# Create day and month columns
+ireland$day <- factor(
+  weekdays(ireland$datetime),
+  levels = c("Monday", "Tuesday", "Wednesday",
+             "Thursday", "Friday", "Saturday", "Sunday")
+)
+
+ireland$month <- as.integer(format(ireland$datetime, "%m"))
+
+# Calculate average electricity demand by day
+daily_demand <- aggregate(
+  IE_load_actual_entsoe_transparency ~ day,
+  data = ireland,
+  FUN = mean
+)
+
 # Plot average electricity demand by day
 barplot(
   daily_demand$IE_load_actual_entsoe_transparency,
