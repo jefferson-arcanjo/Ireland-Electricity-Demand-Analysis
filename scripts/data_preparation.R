@@ -60,3 +60,8 @@ write.csv(
 # Check that the file was saved
 file.exists("data/ireland_electricity_clean.csv")
 
+# Check the number of outliers in electricity demand
+length(boxplot.stats(
+  ireland$IE_load_actual_entsoe_transparency
+)$out)
+

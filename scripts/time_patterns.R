@@ -88,7 +88,7 @@ barplot(
   main = "Average Electricity Demand by Season",
   xlab = "Season",
   ylab = "Average Demand (MW)",
-  col = "lightgreen",
+  col = "#17834B",
   ylim = c(0, 4000)
 )
 
