@@ -29,14 +29,30 @@ summary(pca_result)
 # Check how the variables contribute to each component
 round(pca_result$rotation, 3)
 
+# Calculate the percentage of variance explained
+explained_variance <- pca_result$sdev^2 /
+  sum(pca_result$sdev^2) * 100
 
-# Create a scree plot
-plot(
-  pca_result,
-  type = "b",
+# Create the PCA scree plot
+bars <- barplot(
+  explained_variance,
+  names.arg = paste0("PC", 1:6),
   main = "PCA Scree Plot",
-  ylim = c(0, 3)
+  xlab = "Principal Components",
+  ylab = "Explained Variance (%)",
+  col = "steelblue",
+  border = NA,
+  ylim = c(0, 45)
 )
+
+# Add percentages above each bar
+text(
+  x = bars,
+  y = explained_variance + 1,
+  labels = paste0(round(explained_variance, 2), "%"),
+  cex = 0.8
+)
+
 
 
 #  Plot the first two principal components
@@ -62,3 +78,14 @@ round(cumsum(explained_variance), 2)
 
 #  Check how many components explain at least 80% of variance
 which(cumsum(explained_variance) >= 80)[1]
+
+
+# Show the variance explained by the first three components
+round(explained_variance[1:3], 2)
+
+# Show the total variance explained by the first three components
+round(sum(explained_variance[1:3]), 2)
+
+# Show the variance not retained
+round(100 - sum(explained_variance[1:3]), 2)
+
